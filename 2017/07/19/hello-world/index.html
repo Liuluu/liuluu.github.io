@@ -1,61 +1,48 @@
-extends base
-
-block title
-  title= page.title + ' | ' + config.title
-
-block content
-  .post
-    h1.post-title= page.title
-    .post-meta= page.date.format('ll')
-      if page.categories.length > 0
-        span= ' | '
-        span.category
-          for category in page.categories.toArray()
-            a(href=url_for(category.path))= category.name
-      if theme.busuanzi == true
-        script(src='https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js', async)
-        span#busuanzi_container_page_pv= ' | '
-          span#busuanzi_value_page_pv
-          span= ' ' + __('Hits')
-    if theme.duoshuo
-      a.ds-thread-count(data-thread-key=page.path, href=url_for(page.path) + '#comments')
-    if theme.disqus
-      a.disqus-comment-count(data-disqus-identifier=page.path, href=url_for(page.path) + '#disqus_thread')
-    if theme.gentie
-      a.ds-thread-count(class='cloud-tie-join-count', href=url_for(page.path) + '#comments')
-        span.join-count(style='font-size: 15px; color: #6E7173;') 0
-        span= ' ' + __('Discuss')
-    if theme.changyan
-      a.ds-thread-count(href=url_for(page.path) + '#SOHUCS')
-        span#changyan_count_unit(style='font-size: 15px; color: #6E7173;') 0
-        span= ' ' + __('Comment')
-      script(src='https://assets.changyan.sohu.com/upload/plugins/plugins.count.js', async)
-    if page.toc
-      div(class='clear')
-        div(id='toc' class='toc-article')
-          div(class='toc-title')= __('contents')
-          != toc(page.content, {list_number: theme.toc_number})
-    .post-content
-      != page.content
-    if theme.shareto == true
-      script(type='text/javascript', src=url_for(theme.js) + '/share.js' + '?v=' + theme.version, async)
-      a.article-share-link(data-url='#{page.permalink}', data-id='#{page._id}')= __('shareto')
-    include _partial/tag
-    include _partial/post_nav
-    if theme.duoshuo
-      div(class='ds-share flat' data-thread-key=page.path, data-title=page.title, data-url=page.permalink)
-         .ds-share-inline
-            ul.ds-share-icons-16
-              li(data-toggle='ds-share-icons-more')
-                a(class='ds-more' href='javascript:void(0);') 分享到：
-              li
-                a(class='ds-weibo' href='javascript:void(0);' data-service='weibo') 微博
-              li
-                a(class='ds-qzone' href='javascript:void(0);' data-service='qzone') QQ空间
-              li
-                a(class='ds-qqt' href='javascript:void(0);' data-service='qqt') 腾讯微博
-              li
-                a(class='ds-wechat' href='javascript:void(0);' data-service='wechat') 微信
-            .ds-share-icons-more
-    if page.comments
-      include _partial/comments
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Hello World! | 念久</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Hello World!</h1><a id="logo" href="/.">念久</a><p class="description">Liuluu - 晚点遇见你，余生都是你。</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/history/"><i class="fa fa-book"> 历史</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Hello World!</h1><div class="post-meta">Jul 19, 2017<script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><div class="post-content"><p>　　因为<a href="http://jalan.space" target="_blank" rel="external">江佳扬</a>同学这两天一直在我旁边鼓捣博客迁移，搞得我也心痒痒的想要搭一个个人博客。说干就干的我就这么自己照着网上的教程成功搭成了人生中的第一个博客。博客采用的是<code>Hexo</code>框架，搭建在<code>github</code>上。以下记录下本<del>制杖</del>仙女搭建博客的全过程。</p>
+<h2 id="配置Hexo"><a href="#配置Hexo" class="headerlink" title="配置Hexo"></a>配置Hexo</h2><h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>安装Hexo首先要安装以下程序：</p>
+<ul>
+<li>Node.js</li>
+<li>Git</li>
+</ul>
+<p>安装完成后，打开Git-bash，在命令行输入以下命令即可完成Hexo的安装：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">npm install -<span class="keyword">g</span> hexo-<span class="keyword">cli</span></div><div class="line"></div><div class="line"><span class="comment">//可输入以下代码查看版本，有版本号代表安装成功。</span></div><div class="line">hexo -v</div></pre></td></tr></table></figure></p>
+<h3 id="配置Hexo-1"><a href="#配置Hexo-1" class="headerlink" title="配置Hexo"></a>配置Hexo</h3><p>在本地创建一个文件夹，如D:/hexo。打开Git-bash，依次输入以下命令进行初始化：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo init D:<span class="string">/hexo</span></div><div class="line"><span class="keyword">cd</span> D:<span class="string">/hexo</span></div><div class="line">npm install</div></pre></td></tr></table></figure></p>
+<p>初始化完成后，输入：<br><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">generate</span>   <span class="comment">//生成静态页面</span></div><div class="line">hexo server     <span class="comment">//启动本地服务</span></div></pre></td></tr></table></figure></p>
+<p>此时会启动本地部署好默认的博客网站，打开浏览器输入：<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000/</a> ，就可以看到搭建在本地上的博客啦。=w=</p>
+<h2 id="配置Github"><a href="#配置Github" class="headerlink" title="配置Github"></a>配置Github</h2><h3 id="创建Github帐号"><a href="#创建Github帐号" class="headerlink" title="创建Github帐号"></a>创建Github帐号</h3><p>创建一个Github帐号，如果是首次创建的话记得要到邮箱进行Github帐号的认证哈。帐号认证通过后要创建一个同名的仓库，如帐号是myaccount，新建的仓库名就是myaccount.github.io。</p>
+<h3 id="配置SSH"><a href="#配置SSH" class="headerlink" title="配置SSH"></a>配置SSH</h3><h4 id="1-生成SSH"><a href="#1-生成SSH" class="headerlink" title="1. 生成SSH"></a>1. 生成SSH</h4><p>检查是否已经有SSH Key，打开Git-bash，输入<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">cd</span> ~<span class="string">/.ssh</span></div></pre></td></tr></table></figure></p>
+<p>如果没有这个目录的话，就生成一个新的SSH，输入<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh-keygen -t rsa -C <span class="string">"e-mail"</span>   <span class="comment">// e-mail处填写你注册Github时的邮箱</span></div></pre></td></tr></table></figure></p>
+<p>接下来疯狂回车，当前步骤完成OvO。</p>
+<h4 id="2-配置公钥"><a href="#2-配置公钥" class="headerlink" title="2. 配置公钥"></a>2. 配置公钥</h4><p>打开~/.ssh/id_rsa.pub文件（找不到的话可以看生成步骤，会显示生成文件所在路径），复制里面的全部内容。</p>
+<p>打开Github，登录后点击右上角头像 -&gt; Settings，在个人设置页面左侧找到SSH and GPG keys。新建一个SSH keys，随意输入一个title，再将之前复制好的内容粘贴到key输入框中，点击Add key即可。</p>
+<p>检查SSH是否配置成功，在命令行输入：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">ssh</span> <span class="selector-tag">-T</span> <span class="selector-tag">git</span>@<span class="keyword">github</span>.<span class="keyword">com</span></div></pre></td></tr></table></figure></p>
+<p>如果显示以下内容，则说明SSH配置成功。<br><figure class="highlight irpf90"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Hi username<span class="comment">! You've successfully authenticated, but GitHub does not</span></div><div class="line"><span class="keyword">provide</span> shell <span class="keyword">access</span>.</div></pre></td></tr></table></figure></p>
+<p>跟着教程走的时候，我这里还出现了其他奇怪的内容，但是并不影响SSH配置成功，于是就忽略它了。</p>
+<h4 id="3-配置Github帐户"><a href="#3-配置Github帐户" class="headerlink" title="3. 配置Github帐户"></a>3. 配置Github帐户</h4><p>在命令行输入：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config --global user<span class="selector-class">.name</span> <span class="string">"username"</span></div><div class="line">git config --global user<span class="selector-class">.email</span> <span class="string">"email"</span>   <span class="comment">//这里的username和email替换成注册git时的对应信息</span></div></pre></td></tr></table></figure></p>
+<p>配置完后，输入：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git config --<span class="built_in">list</span>   <span class="comment">//查看已设配置</span></div></pre></td></tr></table></figure></p>
+<p>检查username和email是否正确。</p>
+<p>打开D:/hexo文件下中的_config.yml文件，找到如下位置，填写：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">deploy</span>: </div><div class="line">    <span class="attribute">type</span>: git</div><div class="line">    <span class="attribute">repo</span>: git<span class="variable">@github</span>.<span class="attribute">com</span>:Myaccount/Myaccount.github.io <span class="comment">//Myaccount替换成你的git用户名</span></div></pre></td></tr></table></figure></p>
+<p>注意：yml文件中的<code>:</code>后面要带一个空格！</p>
+<h2 id="更新Github"><a href="#更新Github" class="headerlink" title="更新Github"></a>更新Github</h2><p>在Git-bash中进入网站根目录：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd D:/hexo</div><div class="line">hexo g     <span class="comment">//生成静态页面</span></div><div class="line">hexo d     <span class="comment">//部署到github</span></div></pre></td></tr></table></figure></p>
+<p>这里如果报错的话可以检查一下是否未安装hexo-deployer-git插件。未安装则执行以下语句：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm <span class="keyword">install</span> hexo-deployer-git <span class="comment">--save</span></div></pre></td></tr></table></figure></p>
+<p>更新成功之后，就可以访问 <strong>你的git用户名.github.io</strong> 来查看博客啦=w=。</p>
+<h2 id="更换博客主题"><a href="#更换博客主题" class="headerlink" title="更换博客主题"></a>更换博客主题</h2><p>这时候已经可以通过Myaccount.github.io来访问博客啦，但博客显示的还是Hexo的默认主题。通过<a href="https://hexo.io/themes/" target="_blank" rel="external">Themes|Hexo</a>挑选自己喜欢的主题后，就可以着手给自己的博客更换主题啦。</p>
+<p>通用的更换博客主题的步骤如下：</p>
+<h4 id="1-下载主题"><a href="#1-下载主题" class="headerlink" title="1. 下载主题"></a>1. 下载主题</h4><ul>
+<li><p>通过git链接直接复制到本地：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git clone url themes/themesname  <span class="comment">//url为主题的git链接，themesname为主题名</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>直接下载主题文件到博客的根目录的themes文件夹下。</p>
+</li>
+</ul>
+<h4 id="2-配置主题"><a href="#2-配置主题" class="headerlink" title="2. 配置主题"></a>2. 配置主题</h4><p>打开博客根目录下的_config.yml文件，本例子为D:/hexo/_config.yml。找到theme字段，并将它的值改为你的主题名（注：要和你theme文件夹内的主题名一致）。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> Extensions</span></div><div class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Plugins: https://hexo.io/plugins/</span></span></div><div class="line"><span class="meta">#</span><span class="bash"><span class="comment"># Themes: https://hexo.io/themes/</span></span></div><div class="line">theme: maupassant</div></pre></td></tr></table></figure></p>
+<h4 id="3-重新生成并部署到Github"><a href="#3-重新生成并部署到Github" class="headerlink" title="3. 重新生成并部署到Github"></a>3. 重新生成并部署到Github</h4><p>配置好主题后，可以重新生成并在本地验证是否正常。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd D:/hexo  <span class="comment">//进入博客的根目录</span></div><div class="line">hexo g      <span class="comment">//重新生成静态页面</span></div><div class="line">hexo s      <span class="comment">//启动本地服务器</span></div></pre></td></tr></table></figure></p>
+<p>本地验证没有问题的话就可以部署到git上啦。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d      <span class="comment">//上传到git</span></div></pre></td></tr></table></figure></p>
+<p>通用的主题配置步骤就是以上三步啦，但不同的主题可能有自己的要求，比如maupassant主题就还需要下载两个插件。安装的时候，可以看一下自己选择的主题有没有什么特殊<del>需</del>要求。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h3><p>发布文章可以用命令的形式：<br><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">new</span> <span class="string">"name"</span>     <span class="comment">//新建一个name.md在D:/hexo/source/_post文件夹下</span></div></pre></td></tr></table></figure></p>
+<p>当然，更直接的做法是在根目录的source/_post文件夹下直接创建一个.md文件。书写文章需要使用markdown语法。</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight verilog"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">hexo clean      <span class="comment">//清除缓存文件和已生成的静态文件</span></div><div class="line">hexo <span class="keyword">generate</span>   <span class="comment">//生成网站静态文件，同hexo g</span></div><div class="line">hexo server     <span class="comment">//启动本地服务器，预览主题。同hexo s</span></div><div class="line">hexo deploy     <span class="comment">//自动生成网站静态文件，并部署到设定好的git仓库上，同hexo d</span></div></pre></td></tr></table></figure>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://barrysite.me/2017/05/07/Github%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" target="_blank" rel="external">Github+Hexo+NEXT主题+域名绑定 博客搭建全记录</a></li>
+<li><a href="https://www.haomwei.com/technology/maupassant-hexo.html" target="_blank" rel="external">大道至简——Hexo简洁主题推荐</a></li>
+</ul>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://liuluu.github.io/2017/07/19/hello-world/" data-id="cj5ui9gb50000yggls2y5a8j2" class="article-share-link">分享</a><div class="tags"><a href="/tags/Hexo-github/">Hexo, github</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://liuluu.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Hexo-github/" style="font-size: 15px;">Hexo, github</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/07/19/hello-world/">Hello World!</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://jalan.space/" title="忘归" target="_blank">忘归</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2017 <a href="/." rel="nofollow">念久.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
