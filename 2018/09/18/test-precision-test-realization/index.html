@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>不测的秘密 - 精准测试 | 念久</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">不测的秘密 - 精准测试</h1><a id="logo" href="/.">念久</a><p class="description">回首向来萧瑟处，归去，也无风雨也无晴。</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/history/"><i class="fa fa-book"> 历史</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">不测的秘密 - 精准测试</h1><div class="post-meta">Sep 18, 2018<span> | </span><span class="category"><a href="/categories/测试/">测试</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><div class="post-content"><p>传统测试强调对原有系统的全面覆盖，而精准测试分析通过关注开发实现，从代码层面确定测试范围。从全面测试用例到通过测试分析判断修改的代码，得出测试范围，使得测试的时间与效率都有很大的提升。</p>
+<h2 id="差异化"><a href="#差异化" class="headerlink" title="差异化"></a>差异化</h2><p>精准测试需要指哪打哪，所以我们需要通过关注开发实现，寻找测试对象的差异。精准测试的测试对象，包括：迭代之间的差异部分，及差异部分所影响的其他功能。</p>
+<p>差异化解决了改什么、测什么的问题。</p>
+<h3 id="技术实现差异"><a href="#技术实现差异" class="headerlink" title="技术实现差异"></a>技术实现差异</h3><ol>
+<li>系统设计上的差异：<ul>
+<li>系统架构上分析：当前模块和相关的外围系统</li>
+<li>时序图</li>
+</ul>
+</li>
+<li>工程上的差异：<ul>
+<li>代码差异：SVN-diff</li>
+<li>文件差异：基于反汇编的基本块跳转关系的二进制对比<ul>
+<li>工程引用第三方库</li>
+<li>编译时配置的不同编译参数，编译开关</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="自动分析二进制文件差异化-IDA-pro"><a href="#自动分析二进制文件差异化-IDA-pro" class="headerlink" title="自动分析二进制文件差异化(IDA pro)"></a>自动分析二进制文件差异化(IDA pro)</h3><ol>
+<li>对二进制文件进行逆向反汇编，提取二进制文件的反汇编信息</li>
+<li>对反汇编信息进行比对以计算函数的差异性</li>
+</ol>
+<p>整个对比过程分为3个部分：</p>
+<ol>
+<li>建立基本块跳转控制流程图邻接矩阵</li>
+<li>基本块签名提取与匹配：采用基本块的hash值作为基本块的签名。如果两个基本块的hash值相同，则其指令集合是相同的。</li>
+<li>基本块边匹配：在基本块hash相同的基础上，进一步对跳转关系进行判断，如果两组hash相同的基本块存在一致的跳转关系，则说明两组基本块满足边匹配判定，属于相同基本块。</li>
+</ol>
+<h2 id="技术治理"><a href="#技术治理" class="headerlink" title="技术治理"></a>技术治理</h2><p>技术治理简单说就是关系链，它是用来分析技术实现上的各种耦合关系。</p>
+<p>技术治理是为了搞清楚改什么、影响什么。</p>
+<h3 id="系统内治理"><a href="#系统内治理" class="headerlink" title="系统内治理"></a>系统内治理</h3><ul>
+<li>关键词索引法，通过关键字找到类/方法名，再去全量代码搜索关键词。但这个方法并不准确，例如重名就会产生极大的干扰。</li>
+<li>分析二进制的逆向方法，动态解析调用关系。如利用IDA的逆向函数对二进制文件进行分析。</li>
+<li>动态解析，针对java。在java虚拟机中，对字节码进行增强，通过java程序运行过程中的调用路径进行记录，从而跟踪到类/方法之间的调用关系。</li>
+</ul>
+<h2 id="度量及分析闭环"><a href="#度量及分析闭环" class="headerlink" title="度量及分析闭环"></a>度量及分析闭环</h2><p>通过代码覆盖率来度量测试精准度。</p>
+<h3 id="分析闭环建立"><a href="#分析闭环建立" class="headerlink" title="分析闭环建立"></a>分析闭环建立</h3><ol>
+<li>测试分析：得到测试范围集合</li>
+<li>测试执行：手工执行用例</li>
+<li>统计代码覆盖率</li>
+<li>覆盖率结果分析</li>
+<li>反馈调整：根据分析结果，针对未覆盖代码进行补充，无需覆盖的代码进行记录</li>
+</ol>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://liuluu.github.io/2018/09/18/test-precision-test-realization/" data-id="cjm7s8dx50003t0glpn8ux7ng" class="article-share-link">分享</a><div class="tags"><a href="/tags/读书笔记/">读书笔记</a><a href="/tags/测试/">测试</a></div><div class="post-nav"><a href="/2018/09/18/test-precision-test-case-preanalysis/" class="pre">不测的秘密 - 知识库建立与用例预分析</a><a href="/2018/09/18/test-precision-test-background/" class="next">不测的秘密 - 背景 &amp; 测试分析</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://liuluu.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/第一行代码/" style="font-size: 15px;">第一行代码</a> <a href="/tags/读书笔记/" style="font-size: 15px;">读书笔记</a> <a href="/tags/eclipse/" style="font-size: 15px;">eclipse</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/GitHub/" style="font-size: 15px;">GitHub</a> <a href="/tags/测试/" style="font-size: 15px;">测试</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-case-preanalysis/">不测的秘密 - 知识库建立与用例预分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-realization/">不测的秘密 - 精准测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-background/">不测的秘密 - 背景 & 测试分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/hexo-backup-blog/">Hexo 备份到 GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/23/android-first-line-code-runtime-permission/">第一行代码 - 运行时权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/android-first-line-code-note-data-presistence/">第一行代码 - 数据持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/13/android-first-line-code-note-broadcase/">第一行代码 - 广播</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/13/android-first-line-code-note-fragment/">第一行代码 - 碎片</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/07/android-first-line-code-note-layout/">第一行代码 - 布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/07/android-first-line-code-note-activity/">第一行代码 - 活动</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://jalan.space/" title="忘归" target="_blank">忘归</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">念久.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

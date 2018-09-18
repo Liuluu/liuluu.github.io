@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>不测的秘密 - 知识库建立与用例预分析 | 念久</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">不测的秘密 - 知识库建立与用例预分析</h1><a id="logo" href="/.">念久</a><p class="description">回首向来萧瑟处，归去，也无风雨也无晴。</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/history/"><i class="fa fa-book"> 历史</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">不测的秘密 - 知识库建立与用例预分析</h1><div class="post-meta">Sep 18, 2018<span> | </span><span class="category"><a href="/categories/测试/">测试</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><div class="post-content"><p><strong>目标：</strong></p>
+<ul>
+<li>输入：变更的代码</li>
+<li>用例预分析：<ul>
+<li>变更代码 -&gt; 知识库查找变更对应代码 -&gt; 函数对应用例</li>
+<li>新增函数 -&gt; 提醒去分析和补充用例</li>
+</ul>
+</li>
+<li>输出：推荐测试的用例</li>
+</ul>
+<p><strong>价值：</strong> 提高测试的分析效率和质量。</p>
+<h2 id="建立用例和代码关系：动态获取函数调用链"><a href="#建立用例和代码关系：动态获取函数调用链" class="headerlink" title="建立用例和代码关系：动态获取函数调用链"></a>建立用例和代码关系：动态获取函数调用链</h2><p>确认用例匹配的粒度：函数</p>
+<p>通过<strong>插桩</strong>获取函数的调用关系。</p>
+<blockquote>
+<p>插桩：在保证被测程序原有逻辑完整性的基础上，在程序中插入批量的探针，通过探针的执行并抛出程序运行的特征数据，通过对这些数据的分析，可以获得程序的控制流和数据流信息。</p>
+</blockquote>
+<ul>
+<li>源代码插桩：通过编译的方式将探针插入到源代码中。（GCT）</li>
+<li>中间代码插桩：如Java编译生成.class字节码文件，将探针插入.class文件中。（Jacoco，Emma）</li>
+<li>二进制代码插桩：对程序真正运行的目标文件插桩。（XDebug）</li>
+</ul>
+<h2 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h2><h3 id="变更分析"><a href="#变更分析" class="headerlink" title="变更分析"></a>变更分析</h3><ul>
+<li>SVN diff ：代码文件变更，对于一些无效变更（如未调用代码变更、空行、函数变换位置），当前方式会认为其发生变更。</li>
+<li>二进制对比：编译器优化原因可能导致同一段源代码编译出不同的二进制。</li>
+</ul>
+<p>结合 SVN diff 和二进制变更，精准获得变更的函数。</p>
+<h3 id="变更函数-gt-变更用例"><a href="#变更函数-gt-变更用例" class="headerlink" title="变更函数 -&gt; 变更用例"></a>变更函数 -&gt; 变更用例</h3><p>获取变更函数后，根据变更函数找到其对应的用例 ID，再根据用例 ID 查询用例详情。</p>
+<h3 id="变更接口和边界耦合关系"><a href="#变更接口和边界耦合关系" class="headerlink" title="变更接口和边界耦合关系"></a>变更接口和边界耦合关系</h3><p>公共接口变更时需要识别并通知对应测试。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><h3 id="减少函数对应的用例集"><a href="#减少函数对应的用例集" class="headerlink" title="减少函数对应的用例集"></a>减少函数对应的用例集</h3><p><strong>存在问题：</strong></p>
+<ul>
+<li>用例和函数的分支内容息息相关，回归测试时需要覆盖当前分支，但并不需要覆盖该分支的重复用例。</li>
+<li>不重复的用例中，如果函数改动后，用例和分支的关系已经无效，同样为无效用例。</li>
+</ul>
+<p><strong>解决方案：</strong> 对函数只关联一个最精简的测试用例集。覆盖函数的每一个分支。</p>
+<ol>
+<li>对函数路径分支进行标记：在跳转指令处进行插桩</li>
+<li>提取路径分支hash：<ol>
+<li>遍历函数，递归函数基本块</li>
+<li>遍历基本块指令，提取块首位地址</li>
+<li>解析指令，是条件跳转则提取路径分支个数，计算路径分支hash。建立每个基本块地址与路径分支hash映射关系</li>
+</ol>
+</li>
+<li>用例与函数路径分支的关联关系的建立：用例采集过程中，将命中的插桩地址取出来，与第二部建立的映射关系进行匹配，找到命中插桩地址对应的路径分支hash</li>
+</ol>
+<h3 id="差异性分析到分支级别"><a href="#差异性分析到分支级别" class="headerlink" title="差异性分析到分支级别"></a>差异性分析到分支级别</h3><p>在用例关联上做到了分支级别的关联，但在差异化分析中还只是函数级别，两者不对称造成了用例冗余。</p>
+<h4 id="匹配变更和函数分支hash"><a href="#匹配变更和函数分支hash" class="headerlink" title="匹配变更和函数分支hash"></a>匹配变更和函数分支hash</h4><p><strong>基本思想：</strong> 只要路径分支的条件判断一样，说明它们在函数的执行过程中的路径是相同的，基本块跳转顺序也是一样。这样通过相同分支条件判断就可以匹配前后发生变更的函数路径分支。</p>
+<p><strong>实现步骤：</strong></p>
+<ol>
+<li>计算变更函数的基本块对应的路径分支、路径分支的判断条件的hash值</li>
+<li>建立变更函数的基本块、函数路径分支hash、路径分支条件判断hash三者建立映射关系</li>
+<li>在数据库中查找与路径分支条件判断hash相同的路径分支hash</li>
+</ol>
+<h4 id="用例分支和变更分支关联"><a href="#用例分支和变更分支关联" class="headerlink" title="用例分支和变更分支关联"></a>用例分支和变更分支关联</h4><ol>
+<li>数据库建立起用例与路径分支hash、路径分支条件判断hash的关联关系</li>
+<li>差异化分析后通过变更函数路径分支条件判断hash找到对应的路径分支hash</li>
+<li>将差异化分析中的路径分支hash和数据库中的路径分支hash对比，查找不相同的路径分支hash。该条用例即需要回归的用例。</li>
+</ol>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://liuluu.github.io/2018/09/18/test-precision-test-case-preanalysis/" data-id="cjm7s8db60000t0glxe62r7yw" class="article-share-link">分享</a><div class="tags"><a href="/tags/读书笔记/">读书笔记</a><a href="/tags/测试/">测试</a></div><div class="post-nav"><a href="/2018/09/18/test-precision-test-realization/" class="next">不测的秘密 - 精准测试</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://liuluu.github.io"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/测试/">测试</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Android/" style="font-size: 15px;">Android</a> <a href="/tags/第一行代码/" style="font-size: 15px;">第一行代码</a> <a href="/tags/读书笔记/" style="font-size: 15px;">读书笔记</a> <a href="/tags/eclipse/" style="font-size: 15px;">eclipse</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/GitHub/" style="font-size: 15px;">GitHub</a> <a href="/tags/测试/" style="font-size: 15px;">测试</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-case-preanalysis/">不测的秘密 - 知识库建立与用例预分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-realization/">不测的秘密 - 精准测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/test-precision-test-background/">不测的秘密 - 背景 & 测试分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/17/hexo-backup-blog/">Hexo 备份到 GitHub</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/23/android-first-line-code-runtime-permission/">第一行代码 - 运行时权限</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/17/android-first-line-code-note-data-presistence/">第一行代码 - 数据持久化</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/13/android-first-line-code-note-broadcase/">第一行代码 - 广播</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/13/android-first-line-code-note-fragment/">第一行代码 - 碎片</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/07/android-first-line-code-note-layout/">第一行代码 - 布局</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/07/android-first-line-code-note-activity/">第一行代码 - 活动</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://jalan.space/" title="忘归" target="_blank">忘归</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">念久.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
