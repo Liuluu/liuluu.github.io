@@ -1,5 +1,5 @@
 ---
-title: Android笔记 - 布局
+title: 第一行代码 - 布局
 date: 2018-01-07 19:19:53
 toc: true
 categories:
@@ -160,17 +160,18 @@ eg. 自定义一个标题。
 ```
 3. 在活动中将系统自带的标题栏隐藏
 
-	```java
-	protected void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+  ```java
+  protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
     	setContentView(R.layout.activity_main);
     
-	    ActionBar actionBar = getSupportActionBar();
+      ActionBar actionBar = getSupportActionBar();
     
-	    if (actionBar != null) {
+      if (actionBar != null) {
     	    actionBar.hide();
     	}
-	}
+  }
+  ```
 ```
 
 ### 创建自定义控件
@@ -179,7 +180,7 @@ eg. 自定义一个标题。
     - 通过LayoutInflater.from()方法构建出一个LayoutInflater对象
     - 调用LayoutInflater的inflate()方法动态加载一个布局文件
 
-```java 
+​```java 
 public class TitleLayout extends LinearLayout {
     public TitleLayout (Context context, AttributeSet attrs) {
         super(context, attrs);
