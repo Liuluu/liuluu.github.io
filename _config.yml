@@ -4,7 +4,7 @@
 
 # Site
 title: 念久
-subtitle: 回首向来萧瑟处，归去，也无风雨也无晴。
+subtitle: 幸有我来山未孤
 description:
 author: Liuluu
 language: zh-CN
@@ -40,7 +40,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace:
   
 # Home page setting
@@ -79,3 +79,8 @@ theme: maupassant
 deploy: 
   type: git
   repo: git@github.com:liuluu/liuluu.github.io 
+
+# Security
+##
+encrypt:
+    enable: true

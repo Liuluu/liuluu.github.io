@@ -43,12 +43,22 @@ widgets: ## Six widgets in sidebar provided: search, category, tag, recent_posts
 links:
   - title: 忘归
     url: http://jalan.space/
+  - title: Moonshot
+    url: https://moonshoter.github.io/
 
 timeline:
+  - num:
+    word: 2018/06/23：周杰伦地表最强2福州站演唱会
+  - num:
+    word: 2017/10/22：达成成就#去看一次演唱会：周杰伦地表最强
   - num: 
     word: 2017/07/19：首次搭建博客成功 =w=
   - num: 
     word: 2017/06/28：正式入职，开始第一份工作。
+  - num:
+    word: 2017/01/04：加入 mt，开始实习
+  - num:
+    word: 2013/09/05：入学福州大学
 
 # Static files
 js: js
