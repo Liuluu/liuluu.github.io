@@ -7,7 +7,7 @@ categories:
 tags: 
     - 测试
     - DOS批处理
-description: 能偷懒绝不动手~
+description: 你已经是个成年人了，要学会自己工作赚钱养活自己了。
 ---
 
 

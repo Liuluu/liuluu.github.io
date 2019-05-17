@@ -8,7 +8,7 @@ tags:
     - Android
     - 第一行代码
     - 读书笔记
-description: 兼容界的小能手 Fragment
+# description: 兼容界的小能手 Fragment
 ---
 
 碎片（Fragment）是一种可以嵌入在活动当中的UI片段。

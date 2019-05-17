@@ -8,7 +8,7 @@ tags:
     - Android
     - 第一行代码
     - 读书笔记
-description: 先从看得到的入手 - 探究活动
+# description: 先从看得到的入手 - 探究活动
 ---
 
 定义：包含用户界面的组件。

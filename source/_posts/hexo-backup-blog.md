@@ -5,7 +5,7 @@ date: 2018-09-17 12:12:00
 tags: 
     - Hexo
     - GitHub
-description: 再也不怕电脑坏啦
+# description: 再也不怕电脑坏啦
 ---
 
 基于 Hexo 搭建博客成功并部署到 GitHub 上后，我们会发现在 GitHub 上的文档其实只是通过 `hexo g` 生成的静态页面，并不包括我们本地的 `.md` 文件。如果这时电脑故障，就找不到博客的源文档了。所以，我们需要把一些有用的源文件也同样托管到 GitHub 上。

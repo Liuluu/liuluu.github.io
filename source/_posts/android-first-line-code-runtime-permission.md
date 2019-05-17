@@ -8,7 +8,7 @@ tags:
     - Android
     - 第一行代码
     - 读书笔记
-description: 注意：收到一个爱你的申请。
+# description: 注意：收到一个爱你的申请。
 ---
 
 ## 权限机制
